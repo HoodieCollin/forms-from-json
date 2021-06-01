@@ -6,24 +6,28 @@ on: push
 
 # List of jobs
 jobs:
-  visual-tests:
+  chromatic:
     # Operating System
     runs-on: ubuntu-latest
     # Job steps
     steps:
-      - uses: actions/checkout@v1
-      - run: npm ci
-      - run: npm run build:css
+      - name: Checkout 🛎️
+        uses: actions/checkout@v1
+      - name: Install and Build 🔧
+        run: | # Install npm packages and build the CSS files
+          npm ci
+          npm run build:css
         #👇 Adds Chromatic as a step in the workflow
-      - uses: chromaui/action@v1
+      - name: Deploy 🚀
+        uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
         with:
           #👇 Chromatic projectToken, see https://storybook.js.org/tutorials/intro-to-storybook/react/en/deploy/ to obtain it
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-  build-and-deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+  github-pages:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
