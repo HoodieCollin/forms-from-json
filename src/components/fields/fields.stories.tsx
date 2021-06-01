@@ -6,6 +6,7 @@ import {
   DateField,
   DateFieldProps,
   FieldGroup,
+  FieldGroupContext,
   FieldGroupProps,
   NumberField,
   NumberFieldProps,
@@ -33,7 +34,7 @@ const fieldGroupArgs = {
   data: {
     foo: 'bar',
     prime: 7,
-    time: new Date()
+    time: new Date(2017, 10, 30)
   }
 };
 
@@ -48,8 +49,7 @@ export const [Field_Group, Read_Only] = exemplify<FieldGroupProps>(
           data={{
             foo: 'bar',
             prime: 7,
-            time: new Date(),
-            profileAvatar: createImageAsset()
+            time: new Date()
           }}
         />;`
     },
@@ -101,5 +101,56 @@ export const [Date_Field] = exemplify<DateFieldProps>(
     args: {
       value: new Date()
     }
+  }
+);
+
+export const [Overrides_Via_React_Context] = exemplify<FieldGroupProps>(
+  (args) => (
+    <FieldGroupContext.Provider
+      value={[
+        [
+          () => true,
+          ({ value, ...props }) => (
+            <input type="text" defaultValue={value} {...props} />
+          )
+        ]
+      ]}
+    >
+      <FieldGroup {...args} />
+    </FieldGroupContext.Provider>
+  ),
+  {
+    description:
+      'The Field components rendered by the FieldGroup can be configured via React Context.',
+    args: fieldGroupArgs,
+    codeExample: stripIndent/*jsx*/ `
+      const typeCheckers = [
+        [
+          (s) => typeof s === 'string',
+          ({ value, ...props }) => (
+            <input type="text" defaultValue={value} {...props} />
+          )
+        ],
+        [
+          (n) => typeof n === 'number',
+          ({ value, ...props }) => (
+            <input type="number" defaultValue={value} {...props} />
+          )
+        ]
+        // other checkers...
+      ];
+
+      // ...
+
+      <FieldGroupContext.Provider value={typeCheckers}>
+        <FieldGroup
+          data={{
+            foo: 'bar',
+            prime: 7,
+            time: new Date()
+          }}
+        />
+      </FieldGroupContext.Provider>
+    `
   }
 );
