@@ -17,19 +17,19 @@
     "tailwindcss": "^2.1.2"
   },
   "scripts": {
-    "start": "run-p watch:css dev watch:storybook",
-    "build": "run-s build:css build:react-scripts build:storybook",
     "compile": "tsc --build \"./tsconfig.json\"",
     "prebuild": "npx rimraf ./lib",
+    "build": "run-s build:css build:react-scripts build:storybook",
     "postbuild": "npx copyfiles -u 1 src/styles/index.css lib/",
     "dev": "run-s wait-for:css start:react-scripts",
+    "start": "run-p watch:css dev watch:storybook",
     "test": "craco test",
-    "jest": "jest -u src/**/*.spec.tsx",
     "build:css": "cross-env TAILWIND_MODE=build NODE_ENV=production postcss src/styles/tailwind.css -o src/styles/index.css",
     "watch:css": "cross-env TAILWIND_MODE=watch NODE_ENV=development postcss src/styles/tailwind.css -o src/styles/index.css --watch",
     "wait-for:css": "wait-on src/styles/index.css",
-    "start:react-scripts": "BROWSER=none craco start",
     "build:react-scripts": "craco build",
+    "start:react-scripts": "BROWSER=none craco start",
+    "build:docs": "build-storybook -o docs-build",
     "build:storybook": "build-storybook -s public",
     "watch:storybook": "start-storybook -p 6006 -s public",
     "chromatic": "chromatic --exit-zero-on-changes"
