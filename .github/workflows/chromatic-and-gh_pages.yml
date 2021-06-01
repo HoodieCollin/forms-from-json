@@ -6,12 +6,13 @@ on:
   push:
     paths:
       - '!docs/**'
-      - 'package-lock.json'
+      - '.github/**'
       - '**.jsx?'
       - '**.tsx?'
       - '**.css'
       - '*.config.js'
       - 'tsconfig.json'
+      - 'package-lock.json'
 
 # List of jobs
 jobs:
