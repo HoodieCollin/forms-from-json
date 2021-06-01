@@ -1,26 +1,36 @@
-import { isBoolean, isDate, isNumber, isString, map, startCase } from 'lodash';
+import clsx from 'clsx';
+import { isBoolean, isDate, isNumber, isString, map } from 'lodash';
 import { createContext, useCallback, useContext } from 'react';
 import BooleanField from './boolean';
 import DateField from './date';
+import { FieldProps } from './field-props';
 import NumberField from './number';
 import TextField from './text';
-import { _FieldProps } from './_common-props';
 
 export type FieldTypeTuple = [
   (v: any) => boolean,
-  (props: _FieldProps<any>) => JSX.Element
+  (props: FieldProps<any>) => JSX.Element
 ];
 
 export type FieldTypes = FieldTypeTuple[];
 
-export const FieldGroupContext = createContext<FieldTypes>([
-  [isBoolean, BooleanField],
-  [isString, TextField],
-  [isNumber, NumberField],
-  [isDate, DateField]
-]);
+export interface FieldGroupConfig {
+  className?: string;
+  fieldTypes: FieldTypes;
+}
+
+export const FieldGroupContext = createContext<FieldGroupConfig>({
+  className: 'ffj-flex ffj-flex-col ffj-space-y-3',
+  fieldTypes: [
+    [isBoolean, BooleanField],
+    [isString, TextField],
+    [isNumber, NumberField],
+    [isDate, DateField]
+  ]
+});
 
 export interface FieldGroupProps {
+  className?: string;
   /**
    * Should the field be interactive?
    */
@@ -34,14 +44,21 @@ export interface FieldGroupProps {
 /**
  * Takes in data and renders the necessary form fields to update that data.
  */
-export const FieldGroup = ({ readOnly, data }: FieldGroupProps) => {
-  const fieldTypes = useContext(FieldGroupContext);
+export const FieldGroup = ({
+  className: classNameFromProps,
+  readOnly,
+  data
+}: FieldGroupProps) => {
+  const { className: classNameFromConfig, fieldTypes } =
+    useContext(FieldGroupContext);
 
   const renderField = useCallback(
-    (value) => {
+    (value, key) => {
       for (const [typeChecker, Field] of fieldTypes) {
         if (typeChecker(value)) {
-          return <Field key={value} readOnly={readOnly} value={value} />;
+          return (
+            <Field key={key} readOnly={readOnly} label={key} value={value} />
+          );
         }
       }
 
@@ -55,16 +72,9 @@ export const FieldGroup = ({ readOnly, data }: FieldGroupProps) => {
   }
 
   return (
-    <div className="flex flex-col space-y-3">
+    <div className={clsx(classNameFromConfig, classNameFromProps)}>
       {map(data, (value, key) =>
-        key[0] === '_' ? null : (
-          <div key={key} className="">
-            <label className="mb-1 block text-sm font-medium text-gray-500">
-              {startCase(key)}
-            </label>
-            {renderField(value)}
-          </div>
-        )
+        key[0] === '_' ? null : renderField(value, key)
       ).filter(Boolean)}
     </div>
   );

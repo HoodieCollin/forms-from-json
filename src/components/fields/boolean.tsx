@@ -1,22 +1,33 @@
 import clsx from 'clsx';
-import { _FieldProps } from './_common-props';
+import { startCase } from 'lodash';
+import { FieldProps } from './field-props';
 
-export interface BooleanFieldProps extends _FieldProps<boolean> {}
+export interface BooleanFieldProps extends FieldProps<boolean> {}
 
 /**
  * A checkbox component.
  */
 export const BooleanField = ({
+  label,
   readOnly = false,
   value
 }: BooleanFieldProps) => {
-  return (
+  const field = (
     <input
       readOnly={readOnly}
-      className={clsx('rounded', readOnly && 'text-gray-500')}
+      className={clsx('ffj-rounded', readOnly && 'ffj-text-gray-500')}
       type="checkbox"
       defaultChecked={value}
     />
+  );
+
+  return (
+    <div className="__ffj">
+      <label className="ffj-mb-1 ffj-block ffj-text-sm ffj-font-medium ffj-text-gray-500">
+        {startCase(label)}
+      </label>
+      {field}
+    </div>
   );
 };
 

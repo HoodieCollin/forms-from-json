@@ -107,14 +107,23 @@ export const [Date_Field] = exemplify<DateFieldProps>(
 export const [Overrides_Via_React_Context] = exemplify<FieldGroupProps>(
   (args) => (
     <FieldGroupContext.Provider
-      value={[
-        [
-          () => true,
-          ({ value, ...props }) => (
-            <input type="text" defaultValue={value} {...props} />
-          )
+      value={{
+        fieldTypes: [
+          [
+            (s) => typeof s === 'string',
+            ({ value, ...props }) => (
+              <input type="text" defaultValue={value} {...props} />
+            )
+          ],
+          [
+            (n) => typeof n === 'number',
+            ({ value, ...props }) => (
+              <input type="number" defaultValue={value} {...props} />
+            )
+          ]
+          // other checkers...
         ]
-      ]}
+      }}
     >
       <FieldGroup {...args} />
     </FieldGroupContext.Provider>
@@ -124,7 +133,7 @@ export const [Overrides_Via_React_Context] = exemplify<FieldGroupProps>(
       'The Field components rendered by the FieldGroup can be configured via React Context.',
     args: fieldGroupArgs,
     codeExample: stripIndent/*jsx*/ `
-      const typeCheckers = [
+      const fieldTypes = [
         [
           (s) => typeof s === 'string',
           ({ value, ...props }) => (
@@ -142,7 +151,7 @@ export const [Overrides_Via_React_Context] = exemplify<FieldGroupProps>(
 
       // ...
 
-      <FieldGroupContext.Provider value={typeCheckers}>
+      <FieldGroupContext.Provider value={{ fieldTypes }}>
         <FieldGroup
           data={{
             foo: 'bar',

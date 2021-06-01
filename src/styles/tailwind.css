@@ -1,16 +1,21 @@
-@tailwind base;
+.__ffj {
+  @tailwind base;
 
-/* Your own custom base styles */
+  & * {
+    @apply ffj-font-sans;
+  }
 
-/* Start purging... */
-@tailwind components;
-/* Stop purging. */
+  /* Your own custom base styles */
+}
 
-/* Your own custom component styles */
+@context increaseSpecificity {
+  /* Start purging... */
+  @tailwind components;
+  /* Stop purging. */
 
-/* Start purging... */
-@tailwind utilities;
-/* Stop purging. */
+  /* Your own custom component styles */
 
-/* Your own custom utilities */
-@tailwind forms;
+  /* Start purging... */
+  @tailwind utilities;
+  /* Stop purging. */
+}

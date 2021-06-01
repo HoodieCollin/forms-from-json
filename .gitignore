@@ -24,6 +24,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # Tailwind processed CSS 
-index.css
+forms-from-json.css
 
+/lib
 build-storybook.log
+storybook-static

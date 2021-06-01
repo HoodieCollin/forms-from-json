@@ -10,8 +10,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "outDir": "src/lib",
+    "outDir": "lib/",
     "jsx": "react-jsx",
     "module": "esnext",
     "declaration": true,
@@ -48,10 +47,10 @@
   ],
   "exclude": [
     "node_modules",
-    "**/*.test.ts",
     "**/*.test.tsx",
+    "**/*.spec.tsx",
     "**/*.stories.tsx",
-    "src/lib/storybook-tools.ts"
+    "./src/lib/storybook-tools.ts"
   ],
   "files": [
     "./src/index.ts"

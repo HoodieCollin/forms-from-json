@@ -1,7 +1,6 @@
 {
   "name": "forms-from-json",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.2",
     "@headlessui/react": "^1.2.0",
@@ -15,42 +14,6 @@
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "tailwindcss": "^2.1.2"
-  },
-  "scripts": {
-    "compile": "tsc --build \"./tsconfig.json\"",
-    "prebuild": "npx rimraf ./lib",
-    "build": "run-s build:css build:react-scripts build:storybook",
-    "postbuild": "npx copyfiles -u 1 src/styles/index.css lib/",
-    "dev": "run-s wait-for:css start:react-scripts",
-    "start": "run-p watch:css dev watch:storybook",
-    "test": "craco test",
-    "build:css": "cross-env TAILWIND_MODE=build NODE_ENV=production postcss src/styles/tailwind.css -o src/styles/index.css",
-    "watch:css": "cross-env TAILWIND_MODE=watch NODE_ENV=development postcss src/styles/tailwind.css -o src/styles/index.css --watch",
-    "wait-for:css": "wait-on src/styles/index.css",
-    "build:react-scripts": "craco build",
-    "start:react-scripts": "BROWSER=none craco start",
-    "build:docs": "build-storybook -o docs-build",
-    "build:storybook": "build-storybook -s public",
-    "watch:storybook": "start-storybook -p 6006 -s public",
-    "chromatic": "chromatic --exit-zero-on-changes"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "prettier"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.2.9",
@@ -71,15 +34,57 @@
     "autoprefixer": "^9.8.6",
     "chromatic": "^5.8.3",
     "common-tags": "^1.8.0",
-    "cross-env": "7.x",
+    "copyfiles": "^2.4.1",
     "eslint-config-prettier": "^8.3.0",
     "npm-run-all": "4.x",
     "postcss": "^8.3.0",
     "postcss-cli": "8.x",
+    "postcss-increase-specificity": "^0.6.0",
+    "postcss-nested": "^5.0.5",
+    "postcss-plugin-context": "^2.0.0",
     "postcss-preset-env": "6.x",
     "prettier": "^2.3.0",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.0.0",
     "typescript": "4.x",
     "wait-on": "^5.3.0"
-  }
+  },
+  "scripts": {
+    "prebuild": "npm run prestart",
+    "prestart": "rimraf ./lib ./src/styles/forms-from-json.css",
+    "build": "run-s build:css build:lib build:storybook",
+    "develop": "run-s wait-for:css watch:storybook",
+    "start": "run-p watch:css develop",
+    "test": "craco test",
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "build:css": "TAILWIND_MODE=build NODE_ENV=production postcss src/styles/tailwind.css -o src/styles/forms-from-json.css",
+    "watch:css": "TAILWIND_MODE=watch NODE_ENV=development postcss src/styles/tailwind.css -o src/styles/forms-from-json.css --watch",
+    "wait-for:css": "wait-on src/styles/forms-from-json.css",
+    "postbuild:css": "copyfiles -u 1 src/styles/forms-from-json.css lib",
+    "build:lib": "tsc --build ./tsconfig.json",
+    "build:docs": "build-storybook -o docs-build",
+    "build:storybook": "build-storybook -s public",
+    "watch:storybook": "start-storybook -p 6006 -s public"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "prettier"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }
