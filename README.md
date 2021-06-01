@@ -1,13 +1,11 @@
 # cra-template-tailwindcss-typescript
 
-A streamlined [Tailwind CSS](https://tailwindcss.com) template for [Create React App](https://github.com/facebook/create-react-app) in [TypeScript](https://www.typescriptlang.org/).
+> see the docs [here.](https://hoodiecollin.github.io/forms-from-json/)
 
-> This template installs and sets up [Tailwind CSS](https://tailwindcss.com) with TypeScript support.
-
-## Usage
+## Usage (TBD)
 
 ```bash
-npx create-react-app --template tailwindcss-typescript
+...
 ```
 
 ## Credits
@@ -19,4 +17,4 @@ This project was made possible thanks to the following projects.
 
 ## License
 
-MIT © [Sung M. Kim](https://sung.codes)
+MIT © [Collin L Kokotas](https://github.com/HoodieCollin)
