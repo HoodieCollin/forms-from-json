@@ -18,6 +18,15 @@ jobs:
           npm ci
           npm run build:css
         #👇 Adds Chromatic as a step in the workflow
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
       - name: Deploy 🚀
         uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
@@ -38,7 +47,17 @@ jobs:
       - name: Install and Build 🔧
         run: | # Install npm packages and build the Storybook files
           npm ci
+          npm run build:css
           npm run build:docs
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
