@@ -34,7 +34,6 @@
     "wait-for:css": "wait-on src/styles/index.css",
     "start:react-scripts": "BROWSER=none craco start",
     "build:react-scripts": "craco build",
-    "prebuild:storybook": "npm run build:css",
     "build:storybook": "build-storybook -s public",
     "watch:storybook": "start-storybook -p 6006 -s public",
     "chromatic": "chromatic --exit-zero-on-changes"
