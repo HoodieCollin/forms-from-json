@@ -27,6 +27,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   github-pages:
+    needs: chromatic
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
