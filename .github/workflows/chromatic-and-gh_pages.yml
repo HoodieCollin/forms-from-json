@@ -2,7 +2,16 @@
 name: 'Chromatic Deployment'
 
 # Event for the workflow
-on: push
+on:
+  push:
+    paths:
+      - '!docs/**'
+      - 'package-lock.json'
+      - '**.jsx?'
+      - '**.tsx?'
+      - '**.css'
+      - '*.config.js'
+      - 'tsconfig.json'
 
 # List of jobs
 jobs:
