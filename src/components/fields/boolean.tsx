@@ -1,9 +1,7 @@
 import clsx from 'clsx';
+import { _FieldProps } from './_common-props';
 
-export interface BooleanFieldProps {
-  readOnly?: boolean;
-  value: boolean;
-}
+export interface BooleanFieldProps extends _FieldProps<boolean> {}
 
 /**
  * A checkbox component.

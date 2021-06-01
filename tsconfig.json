@@ -11,7 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "noEmit": true,
-    "outDir": "lib",
+    "outDir": "src/lib",
     "jsx": "react-jsx",
     "module": "esnext",
     "declaration": true,
@@ -51,7 +51,7 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.stories.tsx",
-    "./src/setupTests.ts"
+    "src/lib/storybook-tools.ts"
   ],
   "files": [
     "./src/index.ts"

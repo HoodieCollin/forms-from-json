@@ -1,9 +1,7 @@
 import clsx from 'clsx';
+import { _FieldProps } from './_common-props';
 
-export interface DateFieldProps {
-  readOnly?: boolean;
-  value: Date;
-}
+export interface DateFieldProps extends _FieldProps<Date> {}
 
 /**
  * Renders two fields, one for the date and another for the time.

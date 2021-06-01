@@ -1,6 +1,7 @@
 import clsx from 'clsx';
+import { _FieldProps } from './_common-props';
 
-export interface NumberFieldProps {
+export interface NumberFieldProps extends _FieldProps<number> {
   readOnly?: boolean;
   value: number;
 }

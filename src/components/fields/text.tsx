@@ -1,6 +1,7 @@
 import clsx from 'clsx';
+import { _FieldProps } from './_common-props';
 
-export interface TextFieldProps {
+export interface TextFieldProps extends _FieldProps<string> {
   readOnly?: boolean;
   value: string;
 }
