@@ -1,4 +1,4 @@
-# cra-template-tailwindcss-typescript
+# forms-from-json
 
 > see the docs [here.](https://hoodiecollin.github.io/forms-from-json/)
 
