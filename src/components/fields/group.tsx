@@ -57,7 +57,7 @@ export const FieldGroup = forwardRef<HTMLDivElement, FieldGroupProps>(
       (value, key) => {
         for (const [typeChecker, Field] of fieldTypes) {
           if (typeChecker(value)) {
-            return <Field key={key} value={value} />;
+            return <Field key={key} readOnly={readOnly} value={value} />;
           }
         }
 
