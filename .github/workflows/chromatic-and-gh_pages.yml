@@ -35,7 +35,6 @@ jobs:
       - name: Install and Build 🔧
         run: | # Install npm packages and build the CSS files
           npm ci
-          npm run build:css
         #👇 Adds Chromatic as a step in the workflow
       - name: Deploy 🚀
         uses: chromaui/action@v1
@@ -66,7 +65,6 @@ jobs:
       - name: Install and Build 🔧
         run: | # Install npm packages and build the Storybook files
           npm ci
-          npm run build:css
           npm run build:docs
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.6.2
