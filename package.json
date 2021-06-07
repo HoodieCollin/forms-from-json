@@ -69,9 +69,6 @@
     "type": "git",
     "url": "git://github.com/HoodieCollin/forms-from-json.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "description": "> see the [docs here](https://hoodiecollin.github.io/forms-from-json/?path=/docs/components-field-group--field-group) and the [status of recent builds here](https://www.chromatic.com/builds?appId=60b5a22dc428f6003ba087d4)",
   "bugs": {
     "url": "https://github.com/HoodieCollin/forms-from-json/issues"
