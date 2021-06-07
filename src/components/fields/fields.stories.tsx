@@ -1,22 +1,10 @@
 import { Meta } from '@storybook/react';
 import { stripIndent } from 'common-tags';
-import {
-  BooleanField,
-  BooleanFieldProps,
-  DateField,
-  DateFieldProps,
-  FieldGroup,
-  FieldGroupContext,
-  FieldGroupProps,
-  NumberField,
-  NumberFieldProps,
-  TextField,
-  TextFieldProps
-} from '.';
+import { FieldGroup, FieldGroupContext, FieldGroupProps } from '.';
 import { exemplify } from '../../lib/storybook-tools';
 
 export default {
-  title: 'Fields/Field Components',
+  title: 'Components/Field Group',
   component: FieldGroup,
   decorators: [
     (Story) => (
@@ -45,63 +33,33 @@ export const [Field_Group, Read_Only] = exemplify<FieldGroupProps>(
       args: fieldGroupArgs,
       codeExample: stripIndent/*jsx*/ `
         <FieldGroup
-          readOnly={false}
           data={{
             foo: 'bar',
             prime: 7,
             time: new Date()
           }}
-        />;`
+        />
+      `
     },
     {
       description:
         'Control the `readOnly` state of all the components at once.',
+      codeExample: stripIndent/*jsx*/ `
+        <FieldGroup
+          readOnly
+          data={{
+            foo: 'bar',
+            prime: 7,
+            time: new Date()
+          }}
+        />
+      `,
       args: {
         ...fieldGroupArgs,
         readOnly: true
       }
     }
   ]
-);
-
-export const [Text_Field] = exemplify<TextFieldProps>(
-  (args) => <TextField {...args} />,
-  {
-    description: 'Simple text input with no validation.',
-    args: {
-      value: 'some generic text'
-    }
-  }
-);
-
-export const [Number_Field] = exemplify<NumberFieldProps>(
-  (args) => <NumberField {...args} />,
-  {
-    description: 'Simple number input with no validation.',
-    args: {
-      value: 42
-    }
-  }
-);
-
-export const [Boolean_Field] = exemplify<BooleanFieldProps>(
-  (args) => <BooleanField {...args} />,
-  {
-    description: 'Simple checkbox component.',
-    args: {
-      value: true
-    }
-  }
-);
-
-export const [Date_Field] = exemplify<DateFieldProps>(
-  (args) => <DateField {...args} />,
-  {
-    description: 'Breaks dates into two inputs: calander day and time.',
-    args: {
-      value: new Date()
-    }
-  }
 );
 
 export const [Overrides_Via_React_Context] = exemplify<FieldGroupProps>(

@@ -1,15 +1,8 @@
-import clsx from 'clsx';
-import { isBoolean, isDate, isNumber, isString, map } from 'lodash';
-import { createContext, useCallback, useContext } from 'react';
-import BooleanField from './boolean';
-import DateField from './date';
-import { FieldProps } from './field-props';
-import NumberField from './number';
-import TextField from './text';
+import { createContext, forwardRef, useCallback, useContext } from 'react';
 
 export type FieldTypeTuple = [
   (v: any) => boolean,
-  (props: FieldProps<any>) => JSX.Element
+  (props: any) => JSX.Element | null
 ];
 
 export type FieldTypes = FieldTypeTuple[];
@@ -19,24 +12,29 @@ export interface FieldGroupConfig {
   fieldTypes: FieldTypes;
 }
 
+export const BaseInput = forwardRef<HTMLInputElement>((props, ref) => (
+  <input {...props} ref={ref} />
+));
+
 export const FieldGroupContext = createContext<FieldGroupConfig>({
-  className: 'ffj-flex ffj-flex-col ffj-space-y-3',
-  fieldTypes: [
-    [isBoolean, BooleanField],
-    [isString, TextField],
-    [isNumber, NumberField],
-    [isDate, DateField]
-  ]
+  fieldTypes: [[() => true, BaseInput]]
 });
 
 export interface FieldGroupProps {
+  /**
+   * String of class names to apply to the containing `<div />`. Has no effect when the `inline` prop is set to `true`.
+   */
   className?: string;
   /**
-   * Should the field be interactive?
+   * Should the fields be interactive?
    */
   readOnly: boolean;
   /**
-   * The collection that will correspond to a set of UI Elements
+   * Should the fields be returned directly or wrapped in a `<div />`?
+   */
+  inline: boolean;
+  /**
+   * The collection that will correspond to a set of UI Elements. Property keys prefixed with an underscore `_` will not be rendered.
    */
   data: { [key: string]: any };
 }
@@ -47,18 +45,16 @@ export interface FieldGroupProps {
 export const FieldGroup = ({
   className: classNameFromProps,
   readOnly,
+  inline,
   data
 }: FieldGroupProps) => {
-  const { className: classNameFromConfig, fieldTypes } =
-    useContext(FieldGroupContext);
+  const { fieldTypes } = useContext(FieldGroupContext);
 
   const renderField = useCallback(
     (value, key) => {
       for (const [typeChecker, Field] of fieldTypes) {
         if (typeChecker(value)) {
-          return (
-            <Field key={key} readOnly={readOnly} label={key} value={value} />
-          );
+          return <Field key={key} value={value} />;
         }
       }
 
@@ -71,12 +67,17 @@ export const FieldGroup = ({
     data = {};
   }
 
-  return (
-    <div className={clsx(classNameFromConfig, classNameFromProps)}>
-      {map(data, (value, key) =>
-        key[0] === '_' ? null : renderField(value, key)
-      ).filter(Boolean)}
-    </div>
+  const fields = Object.keys(data)
+    .map((key) => {
+      const value = data[key];
+      return key[0] === '_' ? null : renderField(value, key);
+    })
+    .filter(Boolean);
+
+  return inline ? (
+    <>{fields}</>
+  ) : (
+    <div className={classNameFromProps}>{fields}</div>
   );
 };
 
