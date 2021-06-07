@@ -1,4 +1,11 @@
-import { createContext, forwardRef, useCallback, useContext } from 'react';
+import {
+  AllHTMLAttributes,
+  createContext,
+  forwardRef,
+  Fragment,
+  useCallback,
+  useContext
+} from 'react';
 
 export type FieldTypeTuple = [
   (v: any) => boolean,
@@ -24,15 +31,15 @@ export interface FieldGroupProps {
   /**
    * String of class names to apply to the containing `<div />`. Has no effect when the `inline` prop is set to `true`.
    */
-  className?: string;
+  divProps?: AllHTMLAttributes<HTMLDivElement>;
   /**
    * Should the fields be interactive?
    */
-  readOnly: boolean;
+  readOnly?: boolean;
   /**
    * Should the fields be returned directly or wrapped in a `<div />`?
    */
-  inline: boolean;
+  inline?: boolean;
   /**
    * The collection that will correspond to a set of UI Elements. Property keys prefixed with an underscore `_` will not be rendered.
    */
@@ -42,43 +49,42 @@ export interface FieldGroupProps {
 /**
  * Takes in data and renders the necessary form fields to update that data.
  */
-export const FieldGroup = ({
-  className: classNameFromProps,
-  readOnly,
-  inline,
-  data
-}: FieldGroupProps) => {
-  const { fieldTypes } = useContext(FieldGroupContext);
+export const FieldGroup = forwardRef<HTMLDivElement, FieldGroupProps>(
+  ({ divProps = {}, readOnly = false, inline = false, data }, ref) => {
+    const { fieldTypes } = useContext(FieldGroupContext);
 
-  const renderField = useCallback(
-    (value, key) => {
-      for (const [typeChecker, Field] of fieldTypes) {
-        if (typeChecker(value)) {
-          return <Field key={key} value={value} />;
+    const renderField = useCallback(
+      (value, key) => {
+        for (const [typeChecker, Field] of fieldTypes) {
+          if (typeChecker(value)) {
+            return <Field key={key} value={value} />;
+          }
         }
-      }
 
-      return null;
-    },
-    [fieldTypes, readOnly]
-  );
+        return null;
+      },
+      [fieldTypes, readOnly]
+    );
 
-  if (!data) {
-    data = {};
+    if (!data) {
+      data = {};
+    }
+
+    const fields = Object.keys(data)
+      .map((key) => {
+        const value = data[key];
+        return key[0] === '_' ? null : renderField(value, key);
+      })
+      .filter(Boolean);
+
+    return inline ? (
+      <Fragment>{fields}</Fragment>
+    ) : (
+      <div ref={ref} {...divProps}>
+        {fields}
+      </div>
+    );
   }
-
-  const fields = Object.keys(data)
-    .map((key) => {
-      const value = data[key];
-      return key[0] === '_' ? null : renderField(value, key);
-    })
-    .filter(Boolean);
-
-  return inline ? (
-    <>{fields}</>
-  ) : (
-    <div className={classNameFromProps}>{fields}</div>
-  );
-};
+);
 
 export default FieldGroup;
