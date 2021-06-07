@@ -1,6 +1,6 @@
 # forms-from-json
 
-> see the [docs here](https://hoodiecollin.github.io/forms-from-json/) and the [status of recent builds here](https://www.chromatic.com/builds?appId=60b5a22dc428f6003ba087d4)
+> see the [docs here](https://hoodiecollin.github.io/forms-from-json/?path=/docs/components-field-group--field-group) and the [status of recent builds here](https://www.chromatic.com/builds?appId=60b5a22dc428f6003ba087d4)
 
 ## Usage (TBD)
 
