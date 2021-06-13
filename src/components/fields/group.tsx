@@ -44,18 +44,22 @@ export interface FieldGroupProps {
    * The collection that will correspond to a set of UI Elements. Property keys prefixed with an underscore `_` will not be rendered.
    */
   data: { [key: string]: any };
+  /**
+   * Override fieldTypes from context
+   */
+  fieldTypes?: FieldTypes
 }
 
 /**
  * Takes in data and renders the necessary form fields to update that data.
  */
 export const FieldGroup = forwardRef<HTMLDivElement, FieldGroupProps>(
-  ({ divProps = {}, readOnly = false, inline = false, data }, ref) => {
+  ({ divProps = {}, readOnly = false, inline = false, data, fieldTypes: fieldTypesFromProps }, ref) => {
     const { fieldTypes } = useContext(FieldGroupContext);
 
     const renderField = useCallback(
       (value, key) => {
-        for (const [typeChecker, Field] of fieldTypes) {
+        for (const [typeChecker, Field] of (fieldTypesFromProps || fieldTypes)) {
           if (typeChecker(value)) {
             return <Field key={key} readOnly={readOnly} value={value} />;
           }
@@ -63,7 +67,7 @@ export const FieldGroup = forwardRef<HTMLDivElement, FieldGroupProps>(
 
         return null;
       },
-      [fieldTypes, readOnly]
+      [fieldTypes, fieldTypesFromProps, readOnly]
     );
 
     if (!data) {
