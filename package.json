@@ -75,6 +75,7 @@
   },
   "homepage": "https://github.com/HoodieCollin/forms-from-json#readme",
   "main": "index.js",
+  "types": "index.d.ts",
   "directories": {
     "doc": "docs",
     "lib": "lib"
