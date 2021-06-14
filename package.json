@@ -74,8 +74,8 @@
     "url": "https://github.com/HoodieCollin/forms-from-json/issues"
   },
   "homepage": "https://github.com/HoodieCollin/forms-from-json#readme",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "directories": {
     "doc": "docs",
     "lib": "lib"
