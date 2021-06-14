@@ -12,7 +12,7 @@
     "isolatedModules": true,
     "outDir": "lib/",
     "jsx": "react-jsx",
-    "module": "esnext",
+    "module": "CommonJS",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
