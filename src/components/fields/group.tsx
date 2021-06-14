@@ -5,7 +5,7 @@ import {
   Fragment,
   useCallback,
   useContext
-} from 'react';
+  } from 'react';
 
 export type FieldTypeTuple = [
   (v: any) => boolean,
@@ -47,21 +47,32 @@ export interface FieldGroupProps {
   /**
    * Override fieldTypes from context
    */
-  fieldTypes?: FieldTypes
+  fieldTypes?: FieldTypes;
 }
 
 /**
  * Takes in data and renders the necessary form fields to update that data.
  */
 export const FieldGroup = forwardRef<HTMLDivElement, FieldGroupProps>(
-  ({ divProps = {}, readOnly = false, inline = false, data, fieldTypes: fieldTypesFromProps }, ref) => {
+  (
+    {
+      divProps = {},
+      readOnly = false,
+      inline = false,
+      data,
+      fieldTypes: fieldTypesFromProps
+    },
+    ref
+  ) => {
     const { fieldTypes } = useContext(FieldGroupContext);
 
     const renderField = useCallback(
       (value, key) => {
-        for (const [typeChecker, Field] of (fieldTypesFromProps || fieldTypes)) {
+        for (const [typeChecker, Field] of fieldTypesFromProps || fieldTypes) {
           if (typeChecker(value)) {
-            return <Field key={key} readOnly={readOnly} value={value} />;
+            return (
+              <Field key={key} readOnly={readOnly} value={value} label={key} />
+            );
           }
         }
 
